@@ -5,7 +5,7 @@ import re
 def dcm2nii_dlb(spath,tpath):
     subs=os.listdir(spath)
     for sub in subs:
-        files=glob(["%s/%s/*/*" % (spath,sub)])
+        files=glob.glob("%s/%s/*/*" % (spath,sub))
         for file in files:
             date=re.search("\d{4}-\d{2}-\d{2}_\d{2}_\d{2}",file,).group()
             os.makedirs("%s/%s_%s/anat" % (tpath,sub,date))
@@ -13,6 +13,6 @@ def dcm2nii_dlb(spath,tpath):
             os.system(cmd)
 
 if __name__=="__main__":
-    spath=""
-    tpath=""
+    spath="/mnt/parscratch/users/md1weih/dlb/data/ADNI"
+    tpath="/mnt/parscratch/users/md1weih/dlb/data/nifti"
     dcm2nii_dlb(spath, tpath)
