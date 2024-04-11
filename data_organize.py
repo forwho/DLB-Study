@@ -8,7 +8,8 @@ def dcm2nii_dlb(spath,tpath):
         files=glob.glob("%s/%s/*/*" % (spath,sub))
         for file in files:
             date=re.search("\d{4}-\d{2}-\d{2}_\d{2}_\d{2}",file,).group()
-            os.makedirs("%s/%s_%s/anat" % (tpath,sub,date))
+            if not os.path.exists("%s/%s_%s/anat" % (tpath,sub,date)):
+                os.makedirs("%s/%s_%s/anat" % (tpath,sub,date))
             cmd="dcm2niix -f t1.nii.gz -o %s/%s_%s/anat/ %s" % (tpath,sub,date,file)
             os.system(cmd)
 
