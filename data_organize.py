@@ -1,6 +1,8 @@
 import os
 import glob
 import re
+import nibabel as nib
+import numpy as np
 
 def dcm2nii_dlb(spath,tpath):
     subs=os.listdir(spath)
@@ -12,6 +14,12 @@ def dcm2nii_dlb(spath,tpath):
                 os.makedirs("%s/%s_%s/anat" % (tpath,sub,date))
             cmd="dcm2niix -f t1.nii.gz -o %s/%s_%s/anat/ %s" % (tpath,sub,date,file)
             os.system(cmd)
+
+def global_pib(spath,tpath,mask):
+    image_data=nib.load(spath).get_fdata()
+    mask_data=nib.load(mask).get_fdata()
+    suvr=np.nanmean(image_data[mask_data==1,:])
+    np.savetxt(tpath,suvr)
 
 if __name__=="__main__":
     spath=""
